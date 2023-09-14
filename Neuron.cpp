@@ -72,13 +72,16 @@ int NeuronWeb::Train()
 		for (int i = 0; i < 4; i++)
 		{
 			s[1][0].w[i] += e * topmist * s[0][i].out;
-
+			s[0][i].fi += e * mist[i];
 			for (int j = 0; j < 3; j++)
 			{
 				s[0][i].w[j] += e * mist[i] * in[j];
 			}
 		}
-	} while (error > 1e2);
+		error = s[1][0].out - d;
+		error *= error;
+		counter++;
+	} while (error > 1e-6);
 	return counter;
 }
 
